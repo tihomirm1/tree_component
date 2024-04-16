@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+
+
+
+
+
+<style>
+
+#scrollId{
+  background-color: lightblue;
+  width: 8000px;
+
+  height: 550px;
+  display: flex;
+  position:relative; 
+  <!-- overflow-x: scroll; -->
+  <!-- overflow-y: scroll; -->
+}
+
+.element{
+
+	width:100px; 
+	height:100px; 
+	background-color: green; 
+
+}
+
+#buttonClick{
+
+	width:100px; 
+	height:100px; 
+	background-color: red; 
+
+}
+
+#xContainer{
+
+	width:100%; 
+	height:100px; 
+	background-color: yellow; 
+
+}
+
+</style>
+
+</head>
+<body>
+
+
+<div id="scrollId">
+
+
+</div>
+
+</body>
+</html>
+
+<script>
+
+let structure = new Array();
+let leftValueGlobal = 800; 
+
+class Order {
+
+  constructor(id, name, parent) {
+	this.id = id; 
+    this.name = name;
+    this.parent = parent;
+  }
+
+}
+
+function initializeBomStructure(structure){
+
+	structure.push(new Order("3d63b0a1-7a17-4387-a940-3072e2dd024c", "Bicycle", "")); 
+	
+	structure.push(new Order("b29bd7b6-403a-499c-9a2b-3b3495d2fe9f", "Frame", "3d63b0a1-7a17-4387-a940-3072e2dd024c")); 
+	structure.push(new Order("0fe6980f-43ec-49d0-9f4e-ad3ef6d586b0", "Seat", "3d63b0a1-7a17-4387-a940-3072e2dd024c")); 
+	structure.push(new Order("9bc42e6b-ecdc-4b31-b70f-6006d366c30f", "SeatTest2", "3d63b0a1-7a17-4387-a940-3072e2dd024c")); 
+	
+	
+	<!-- structure.push(new Order("6c6a6ffa-d695-40aa-ae4b-a940044ca2bf", "Seat Frame", "0fe6980f-43ec-49d0-9f4e-ad3ef6d586b0"));  -->
+	<!-- structure.push(new Order("02c5470a-0264-419a-b818-798aa05ee397", "Seat Padding", "0fe6980f-43ec-49d0-9f4e-ad3ef6d586b0"));  -->
+	<!-- structure.push(new Order("0204a310-024b-4e63-888d-204e7d200c83", "Seat Cover", "0fe6980f-43ec-49d0-9f4e-ad3ef6d586b0"));  -->
+	<!-- structure.push(new Order("d2e7f057-cb8f-4988-8603-804614c5774f", "ChildFrame", "b29bd7b6-403a-499c-9a2b-3b3495d2fe9f"));  -->
+
+}
+
+
+
+function findParent(structure){
+
+	for (order in structure) {
+	
+		if(structure[order].parent === ""){
+			return structure[order]; 
+		}
+	}
+}
+
+let elementsArray = []; 
+var globalLevel = [{level: 1, elemCount: 0, elements: elementsArray}]; 
+
+// globalLevel.push({level: level, elemCount: 0, elements: {"parentId": parentId, "elementId": currElemId}}); 
+
+var currentRange = {top: 0, bottom: 0}; 
+var currLevelElements = 0; 
+var elementHeigh = 40; 
+
+
+function getGlobalLevelValue(lev){
+
+	let valueToReturn = globalLevel.filter( obj => { return obj.level === lev });
+	return valueToReturn[0]; 
+
+}
+
+
+
+function createNode(parentElem, topValue, leftValue){
+
+	var node = document.createElement("div"); 
+	node.id = parentElem.id;
+	node.style.width = "80px";
+	node.style.height = elementHeigh+"px";
+	node.style.backgroundColor = "#E44D2E"; 
+	node.style.position = 'absolute';
+	node.style.top = topValue+'px';
+	node.style.left = leftValue+'px';
+	node.innerHTML = "<span>"+parentElem.name+"</span>";
+
+	// document.getElementById("scrollId").appendChild(node);
+
+	return node; 
+}
+
+
+
+
+<!-- function editExistingTop(level, topValue){ -->
+	
+	<!-- for (let i = 0; i < globalLevel.length; i++) { -->
+		
+		<!-- globalLevel[i].top = topValue;  -->
+	<!-- } -->
+<!-- } -->
+
+
+
+
+
+<!-- function calculateTop(lev){ -->
+
+	<!-- let res = getGlobalLevelValue(lev);  -->
+	<!-- let top = 0;  -->
+	
+	<!-- if(res.elemCount === 0){ -->
+
+		<!-- return res.top;  -->
+	
+	<!-- }else if(res.elemCount === 1){ -->
+	
+		<!-- return res.bottom;  -->
+	
+	<!-- }else{ -->
+	
+		
+	<!-- } -->
+
+<!-- } -->
+
+
+
+<!-- function registerNodeCreated(level){ -->
+
+	<!-- let globValue = getGlobalLevelValue(level);  -->
+	<!-- globValue.elemCount++;  -->
+
+<!-- } -->
+
+<!-- function startNewLevel(level, currElemId, parenId){ // това ще го запазя, като започна да работя по слагането на екран.  -->
+
+		<!-- currLevelElements = 1;  -->
+		
+		<!-- let prevLevel = level + 0;  -->
+		<!-- let objRes = getGlobalLevelValue(prevLevel - 1); -->
+		
+		// calculateCurrRange(objRes.top);
+		// leftValue = parseInt(objRes.left) - 200;
+		<!-- putNewLevelData(level, currentRange.top, currentRange.bottom, leftValue);   -->
+
+<!-- } -->
+
+<!-- function putNewLevelData(level, topVal, bottomVal, leftVal){ -->
+
+	<!-- globalLevel.push({level: level, elemCount: 0, batch: {}});  -->
+<!-- } -->
+
+
+
+function addToStructure(level, currElemId, parentId){
+
+	if(parentId === undefined) 
+		parentId = 0; 
+
+	let result = getGlobalLevelValue(level); 
+
+	if(result != undefined && result.length != 0){ // добавяме елемент към съществуващите 
+
+		result.elements.push({parentId: parentId, elementId: currElemId}); 
+		
+	}else{ // стартираме ново ниво 
+
+		 globalLevel.push({level: level, elemCount: 0, elements: [{"parentId": parentId, "elementId": currElemId}]}); 
+			
+	}
+
+}
+
+
+
+function digTheElements(currentElem, level, parentId){
+
+	addToStructure(level, currentElem.id, parentId); 
+	
+	// ======= 
+
+	for (order in structure) { 
+
+		if(structure[order].id != currentElem.id){
+	
+			if(structure[order].parent === currentElem.id){	
+						
+				digTheElements(structure[order], level + 1, currentElem.id); 		
+				
+			}
+		}	
+	}
+}
+
+
+
+function groupStructureElements(){
+
+	for (key in globalLevel) {
+		
+		const result = Object.groupBy(globalLevel[key].elements, ({ parentId }) => parentId);
+		globalLevel[key].elements = result; 
+
+	}
+}
+
+
+
+function createBatchDiv(elemId, topValue, leftValue, elementHeigh, numbElem){
+
+<!-- debugger;  -->
+	let widthElem = 10; 
+	let heightDiv = parseInt(widthElem) * parseInt(numbElem); 
+
+
+	var nodesWrapper = document.createElement("div"); 
+	nodesWrapper.id = elemId;
+	nodesWrapper.style.width = "80px";
+	nodesWrapper.style.height = heightDiv+"px";
+	nodesWrapper.style.backgroundColor = "#E44D2E"; 
+	nodesWrapper.style.position = 'absolute';
+	nodesWrapper.style.top = topValue+'px';
+	nodesWrapper.style.left = leftValue+'px';
+	// nodesWrapper.innerHTML = "<span>"+parentElem.name+"</span>";
+
+	return nodesWrapper; 
+}
+
+
+
+function prepareDivBatches(){
+
+	for (key in globalLevel) {
+
+
+		console.log("eeeeeeeeeeeeeeeeeeee"); 
+		// console.log(globalLevel[key].elements); 
+		leftValueGlobal-= 200; 
+ 
+		
+		for (keyVal in globalLevel[key].elements) {
+			
+			// всяка итерация ни е нова матрица партида 
+			console.log("___ globalLevel_loop___"); 
+			<!-- console.log(globalLevel[key].elements[keyVal].length);  -->
+			<!-- console.log(keyVal);  -->
+			// за да изчисля хоризонта на текущите елементи 
+			// ще трябва да знам всеки по колко деца има за да 
+			// им знам бройката 
+			
+			let numbElem = globalLevel[key].elements[keyVal].length; 
+			
+			if(keyVal != 0){
+
+				let elemt = createBatchDiv(keyVal, 100, leftValueGlobal, 20, numbElem); 
+				document.getElementById("scrollId").appendChild(elemt); 
+				
+			}
+		
+		}
+		
+		<!-- globalLevel[key].elements = result;  -->
+		
+	}
+
+}
+
+
+function calculateCurrRange(prevTopValue){
+
+	let calculateMiddle = prevTopValue - (elementHeigh / 2); 
+
+	currentRange.top = calculateMiddle - 200; 
+	currentRange.bottom = calculateMiddle + 200; 
+	
+}
+
+// ==== ==== ====
+
+initializeBomStructure(structure); 
+
+let parent = findParent(structure); 
+
+digTheElements(parent, 1); 
+
+
+let elemt = createBatchDiv("root", 100, leftValueGlobal, 20, 1); 
+document.getElementById("scrollId").appendChild(elemt); 
+
+groupStructureElements(); 
+
+
+
+console.log("___ global ___"); 
+console.log(globalLevel); 
+
+prepareDivBatches(); 
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
