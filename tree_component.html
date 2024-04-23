@@ -139,69 +139,6 @@ function createNode(parentElem, topValue, leftValue){
 }
 
 
-
-
-<!-- function editExistingTop(level, topValue){ -->
-	
-	<!-- for (let i = 0; i < globalLevel.length; i++) { -->
-		
-		<!-- globalLevel[i].top = topValue;  -->
-	<!-- } -->
-<!-- } -->
-
-
-
-
-
-<!-- function calculateTop(lev){ -->
-
-	<!-- let res = getGlobalLevelValue(lev);  -->
-	<!-- let top = 0;  -->
-	
-	<!-- if(res.elemCount === 0){ -->
-
-		<!-- return res.top;  -->
-	
-	<!-- }else if(res.elemCount === 1){ -->
-	
-		<!-- return res.bottom;  -->
-	
-	<!-- }else{ -->
-	
-		
-	<!-- } -->
-
-<!-- } -->
-
-
-
-<!-- function registerNodeCreated(level){ -->
-
-	<!-- let globValue = getGlobalLevelValue(level);  -->
-	<!-- globValue.elemCount++;  -->
-
-<!-- } -->
-
-<!-- function startNewLevel(level, currElemId, parenId){ // това ще го запазя, като започна да работя по слагането на екран.  -->
-
-		<!-- currLevelElements = 1;  -->
-		
-		<!-- let prevLevel = level + 0;  -->
-		<!-- let objRes = getGlobalLevelValue(prevLevel - 1); -->
-		
-		// calculateCurrRange(objRes.top);
-		// leftValue = parseInt(objRes.left) - 200;
-		<!-- putNewLevelData(level, currentRange.top, currentRange.bottom, leftValue);   -->
-
-<!-- } -->
-
-<!-- function putNewLevelData(level, topVal, bottomVal, leftVal){ -->
-
-	<!-- globalLevel.push({level: level, elemCount: 0, batch: {}});  -->
-<!-- } -->
-
-
-
 function addToStructure(level, currElemId, parentId){
 
 	if(parentId === undefined) 
@@ -258,7 +195,6 @@ function groupStructureElements(){
 
 function createBatchDiv(elemId, topValue, leftValue, elementHeigh, numbElem){
 
-<!-- debugger;  -->
 	let widthElem = 10; 
 	let heightDiv = parseInt(widthElem) * parseInt(numbElem); 
 
@@ -283,7 +219,7 @@ function prepareDivBatches(){
 	for (key in globalLevel) {
 
 
-		console.log("eeeeeeeeeeeeeeeeeeee"); 
+		// console.log("eeeeeeeeeeeeeeeeeeee"); 
 		// console.log(globalLevel[key].elements); 
 		leftValueGlobal-= 200; 
  
@@ -291,7 +227,7 @@ function prepareDivBatches(){
 		for (keyVal in globalLevel[key].elements) {
 			
 			// всяка итерация ни е нова матрица партида 
-			console.log("___ globalLevel_loop___"); 
+			// console.log("___ globalLevel_loop___"); 
 			<!-- console.log(globalLevel[key].elements[keyVal].length);  -->
 			<!-- console.log(keyVal);  -->
 			// за да изчисля хоризонта на текущите елементи 
